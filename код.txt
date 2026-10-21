@@ -1,0 +1,27 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    int xk, yk, xr, yr, xb, yb;
+    cout << "King (x y): "; cin >> xk >> yk;
+    cout << "Rook (x y): "; cin >> xr >> yr;
+    cout << "Bishop (x y): "; cin >> xb >> yb;
+
+    bool rookLine = (xk == xr) || (yk == yr);
+    bool bishopLine = abs(xk - xb) == abs(yk - yb);
+    bool rookBlocked =
+        (xk == xr && xb == xk && (yb - yk) * (yb - yr) < 0) ||
+        (yk == yr && yb == yk && (xb - xk) * (xb - xr) < 0);
+    bool bishopBlocked = bishopLine &&
+        abs(xr - xb) == abs(yr - yb) &&
+        (xr - xb) * (xr - xk) < 0 &&
+        (yr - yb) * (yr - yk) < 0;
+    bool rookAttack = rookLine && !rookBlocked;
+    bool bishopAttack = bishopLine && !bishopBlocked;
+
+    cout << "Rook attacks: " << rookAttack << '\n';
+    cout << "Bishop attacks: " << bishopAttack << '\n';
+    cout << "King is under attack: " << (rookAttack || bishopAttack) << '\n';
+    return 0;
+}
